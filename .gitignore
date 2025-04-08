@@ -1,0 +1,14 @@
+AccountService/obj
+AccountService.Tests/obj
+ApiGateway/obj
+NotificationService/obj
+NotificationService.Tests/bin
+NotificationService.Tests/obj
+TransactionService/obj
+TransactionService.Tests/obj
+TransactionService.Tests/bin
+AccountService/appsettings.Development.json
+ApiGateway/appsettings.Development.json
+NotificationService/appsettings.Development.json
+TransactionService/appsettings.Development.json
+AccountService.Tests/bin
