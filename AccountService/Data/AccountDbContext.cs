@@ -11,6 +11,7 @@ public class AccountDbContext : DbContext
 
     public DbSet<Customer> Customers { get; set; } = null!;
     public DbSet<Account> Accounts { get; set; } = null!;
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
