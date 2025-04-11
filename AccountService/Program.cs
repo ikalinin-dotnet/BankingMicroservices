@@ -25,6 +25,9 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Explicitly set URLs to make the service listen on the same port regardless of environment
+builder.WebHost.UseUrls("http://localhost:5259");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,10 +44,10 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-app.UseHttpsRedirection();
+// Comment out HTTPS redirection to avoid issues when calling via HTTP
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

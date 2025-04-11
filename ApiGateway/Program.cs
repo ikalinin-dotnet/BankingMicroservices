@@ -10,6 +10,9 @@ builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange
 builder.Configuration.AddJsonFile($"ocelot.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 builder.Configuration.AddEnvironmentVariables();
 
+// Explicitly set the URL to ensure consistent port usage
+builder.WebHost.UseUrls("http://localhost:5209");
+
 // Add controllers for health check
 builder.Services.AddControllers();
 
@@ -20,10 +23,10 @@ builder.Services.AddOcelot(builder.Configuration);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
-        builder => builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+    builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 });
 
 // Add Swagger
@@ -39,7 +42,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Comment out HTTPS redirection to prevent issues with HTTP calls
+// app.UseHttpsRedirection();
+
 app.UseCors("CorsPolicy");
 
 // Map controllers for health check

@@ -12,3 +12,7 @@ ApiGateway/appsettings.Development.json
 NotificationService/appsettings.Development.json
 TransactionService/appsettings.Development.json
 AccountService.Tests/bin
+AccountService/bin
+ApiGateway/bin
+NotificationService/bin
+TransactionService/bin

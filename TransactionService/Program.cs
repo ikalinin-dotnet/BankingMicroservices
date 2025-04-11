@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using TransactionService.Data;
 using TransactionService.Repositories;
-using TransactionService.Services;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// Add services to the container.
 builder.Services.AddDbContext<TransactionDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=transaction.db"));
 
@@ -14,12 +13,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Register repositories
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-
-// Configure HttpClient for Account Service
-builder.Services.AddHttpClient<IAccountService, AccountService>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ServiceUrls:AccountService"] ?? "http://localhost:5001/");
-});
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -31,9 +24,12 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Explicitly set URLs
+builder.WebHost.UseUrls("http://localhost:5124");
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -47,10 +43,10 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-app.UseHttpsRedirection();
+// Comment out HTTPS redirection
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
