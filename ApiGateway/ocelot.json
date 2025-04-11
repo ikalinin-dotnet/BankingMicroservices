@@ -5,8 +5,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5259
+          "Host": "account-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/accounts/{everything}",
@@ -17,8 +17,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5124
+          "Host": "transaction-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/transactions/{everything}",
@@ -29,8 +29,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5240
+          "Host": "notification-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/notifications/{everything}",

@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  account-service:
+    image: banking-account-service
+    build:
+      context: .
+      dockerfile: AccountService/Dockerfile
+    ports:
+      - "5259:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Data Source=account.db
+    volumes:
+      - account-data:/app/data
+    networks:
+      - banking-network
+
+  transaction-service:
+    image: banking-transaction-service
+    build:
+      context: .
+      dockerfile: TransactionService/Dockerfile
+    ports:
+      - "5124:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Data Source=transaction.db
+    volumes:
+      - transaction-data:/app/data
+    networks:
+      - banking-network
+    depends_on:
+      - account-service
+
+  notification-service:
+    image: banking-notification-service
+    build:
+      context: .
+      dockerfile: NotificationService/Dockerfile
+    ports:
+      - "5240:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Data Source=notification.db
+    volumes:
+      - notification-data:/app/data
+    networks:
+      - banking-network
+    depends_on:
+      - account-service
+      - transaction-service
+
+  api-gateway:
+    image: banking-api-gateway
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+      - "5209:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - banking-network
+    depends_on:
+      - account-service
+      - transaction-service
+      - notification-service
+
+networks:
+  banking-network:
+    driver: bridge
+
+volumes:
+  account-data:
+  transaction-data:
+  notification-data:
